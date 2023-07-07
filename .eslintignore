@@ -1,0 +1,9 @@
+cdk.out/
+/dist
+/lib/types
+*.d.ts
+commitlint.config.js
+coverage/
+*/**/*.js
+/venv/
+

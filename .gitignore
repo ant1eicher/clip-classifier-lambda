@@ -1,0 +1,22 @@
+# CDK asset staging directory
+.cdk.staging
+cdk.out
+
+/dist
+node_modules/
+**/*.js
+**/*.d.ts
+.log
+.param-cache
+.stack-outputs.json
+openapi.json
+.idea
+.stack.json
+.husky
+.env
+.DS_Store
+coverage/
+/.run
+
+venv
+package-lock.json

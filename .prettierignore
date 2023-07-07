@@ -1,0 +1,13 @@
+/.gen
+/.github
+/.next
+/cdk.out
+/dist
+/lib
+.eslintrc.json
+.prettierrc
+coverage/
+/src/generated
+*/**/*.js
+/venv/
+
