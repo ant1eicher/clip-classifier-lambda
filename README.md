@@ -1,6 +1,6 @@
 # clip-classifier-lambda
 
-Use an [OpenAI CLIP](https://openai.com/research/clip) model hosted on a Lambda to classify video thumbnails. The
+Use an [OpenAI CLIP](https://openai.com/research/clip) model hosted on a Lambda to classify images, such as video thumbnails. The
 project is built using CDK, which deploys the Lambda and fronts it with API Gateway.
 
 ## Requirements
