@@ -8,6 +8,7 @@ project is built using CDK, which deploys the Lambda and fronts it with API Gate
 - AWS CDK 2
 - Python 3 / Pip
 - NPM
+- Docker 
 
 ## Build & Deploy
 
@@ -21,6 +22,16 @@ Note: if this is the first time you are deploying a CDK stack to this region, yo
 
 ```shell
 cdk bootstrap
+```
+
+If you would like to install the Python requirements for local development (as opposed to during the Docker build):
+```shell
+make setup
+```
+
+To run the classifier tests:
+```shell
+make classifier-lambda-test
 ```
 
 ## Usage

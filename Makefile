@@ -5,6 +5,10 @@ classifier-lambda-setup:
 	source ./venv/bin/activate && pip3 install -r lambdas/classifier/requirements.txt
 .PHONY: classifier-lambda-setup
 
+classifier-lambda-test:
+	python3 -m unittest
+.PHONY: classifier-lambda-test
+
 fix:
 	npm run fix
 
