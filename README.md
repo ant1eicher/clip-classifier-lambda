@@ -8,7 +8,7 @@ project is built using CDK, which deploys the Lambda and fronts it with API Gate
 - AWS CDK 2
 - Python 3 / Pip
 - NPM
-- Docker 
+- Docker
 
 ## Build & Deploy
 
@@ -25,14 +25,19 @@ cdk bootstrap
 ```
 
 If you would like to install the Python requirements for local development (as opposed to during the Docker build):
+
 ```shell
 make setup
 ```
 
 To run the classifier tests:
+
 ```shell
 make classifier-lambda-test
 ```
+
+The [Dockerfile](/lambdas/classifier/Dockerfile) is configured for ARM. To build for Intel, change `FROM public.ecr.aws/lambda/python:3.10-arm64`, and also
+modify the Lambda function in [clip-classifier-stack.ts](/lib/clip-classifier-stack.ts) from `architecture: lambda.Architecture.ARM_64`.
 
 ## Usage
 
