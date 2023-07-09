@@ -1,4 +1,4 @@
-# clip-video-moderator
+# clip-classifier-lambda
 
 Use an [OpenAI CLIP](https://openai.com/research/clip) model hosted on a Lambda to classify video thumbnails. The
 project is built using CDK, which deploys the Lambda and fronts it with API Gateway.
@@ -15,6 +15,12 @@ The Makefile has various targets you can use, but to do a full build and deploy 
 
 ```shell
 make deploy-cdk
+```
+
+Note: if this is the first time you are deploying a CDK stack to this region, you need to run this first:
+
+```shell
+cdk bootstrap
 ```
 
 ## Usage
@@ -56,6 +62,8 @@ AND the fact that a sport is being played), you will need to run the classifier 
 
 Usage example:
 
+![game_stream_440x248.jpeg](lambdas%2Fclassifier%2Ftests%2Fgame_stream_440x248.jpeg)
+
 ```shell
 IMAGE_DATA=`base64 -i lambdas/classifier/tests/game_stream_440x248.jpeg`; curl -X POST -H "Content-Type: application/json" -d "{\"image_data\": \"${IMAGE_DATA}\", \"labels\":[\"just chatting\", \"game streamer\", \"nude nsfw\", \"music performance\", \"neutral\"]}" https://2b8ircuzu0.execute-api.eu-west-1.amazonaws.com/prod/
 {"result": {"just chatting": 0.07552891969680786, "game streamer": 0.9130083322525024, "nude nsfw": 0.0062192026525735855, "music performance": 0.0031575809698551893, "neutral": 0.0020860943477600813}}
@@ -77,6 +85,8 @@ you should run the classifier N times (e.g. labels ["apple", "no apple"], ["oran
 _could_ run the classifier once with the labels ["apple", "orange", "fruit", "no fruit"], and reason about what
 the relative probabilities indicated about the presence or absence of an object, but YMMV. Rekognition allows you to
 search for up to 1000 labels per invocation.
+
+For comparisons of the CLIP model in terms of accuracy (against image classification datasets such as ImageNet), see the link to the paper below.
 
 ## References
 

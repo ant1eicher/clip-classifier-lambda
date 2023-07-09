@@ -5,7 +5,7 @@ import { DockerImageAsset } from "aws-cdk-lib/aws-ecr-assets";
 import * as apigw from 'aws-cdk-lib/aws-apigateway';
 import * as logs from 'aws-cdk-lib/aws-logs';
 
-export class ClipVideoModeratorStack extends cdk.Stack {
+export class ClipClassifierStack extends cdk.Stack {
   constructor (scope: Construct, id: string, props: cdk.StackProps) {
     super(scope, id, {
       stackName: props.stackName,
@@ -30,8 +30,8 @@ export class ClipVideoModeratorStack extends cdk.Stack {
     });
 
     // Create CloudWatch Log Group
-    const accessLogsLogGroup = new logs.LogGroup(this, 'AccessLogs', {
-      logGroupName: '/aws/apigateway/clip-video-moderator-access-logs',
+    const accessLogsLogGroup = new logs.LogGroup(this, 'ClassifierAccessLogs', {
+      logGroupName: '/aws/apigateway/clip-classifier-access-logs',
       removalPolicy: cdk.RemovalPolicy.DESTROY,
     });
 

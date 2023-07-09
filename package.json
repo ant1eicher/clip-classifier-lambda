@@ -1,5 +1,5 @@
 {
-  "name": "clip-video-moderator",
+  "name": "clip-classifier-lambda",
   "version": "0.1.0",
   "bin": {
     "moderator": "bin/app.js"
