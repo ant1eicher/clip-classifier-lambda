@@ -5,9 +5,9 @@ project is built using CDK, which deploys the Lambda and fronts it with API Gate
 
 ## Requirements
 
-* AWS CDK 2
-* Python 3 / Pip
-* NPM
+- AWS CDK 2
+- Python 3 / Pip
+- NPM
 
 ## Build & Deploy
 
@@ -24,20 +24,15 @@ output after deployment).
 
 Input format:
 
-* Base64-encoded image (e.g. JPEG). The image should be square to work optimally with CLIP. If it is not, however, the
+- Base64-encoded image (e.g. JPEG). The image should be square to work optimally with CLIP. If it is not, however, the
   preprocessing step will center-crop it. This might lead to some parts of the image being cropped out, which could
   potentially lose some information.
-* An array of labels to search for in the image.
+- An array of labels to search for in the image.
 
 ```json
 {
   "image_data": "/9j/2wCEAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPER...",
-  "labels": [
-    "label 1",
-    "label 2",
-    "label 3",
-    "label 4"
-  ]
+  "labels": ["label 1", "label 2", "label 3", "label 4"]
 }
 ```
 
@@ -78,5 +73,5 @@ For comparison, classifying 1000 images using the Rekognition Detect Labels API 
 
 ## References
 
-* OpenAI CLIP paper: https://openai.com/research/clip
-* OpenAI CLIP Github: https://github.com/openai/CLIP
+- OpenAI CLIP paper: https://openai.com/research/clip
+- OpenAI CLIP Github: https://github.com/openai/CLIP
