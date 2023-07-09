@@ -47,15 +47,17 @@ def handler(event, context):
 
     result = {}
     for i in range(len(labels)):
-        result[labels[i]] = probs[0][i]
+        result[labels[i]] = float(probs[0][i])
+
+    print("result", result)
 
     return {
         'statusCode': 200,
         'headers': {
             'Content-Type': 'application/json'
         },
-        'body': {
+        'body': json.dumps({
             'result': result
-        },
+        }),
         "isBase64Encoded": False
     }
