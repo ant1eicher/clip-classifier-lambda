@@ -12,7 +12,7 @@ class TestLambda(TestCase):
     def setUp(self):
         os.environ["MODEL_PATH"] = test_model
         if not os.path.exists(test_model):
-            clip.load("ViT-B/32", download_root=test_model)
+            clip.load("ViT-B/32", download_root="/tmp/model/")
         with open('test_images/game_stream_440x248.jpeg', 'rb') as file:
             self.test_image_game_stream = base64.b64encode(file.read()).decode('utf-8')
         with open('test_images/underwear_not_nude_440x248.jpeg', 'rb') as file:
