@@ -81,7 +81,7 @@ AND the fact that a sport is being played), you will need to run the classifier 
 
 Usage example:
 
-![game_stream_440x248.jpeg](lambdas%2Fclassifier%2Ftests%2Fgame_stream_440x248.jpeg)
+![game_stream_440x248.jpeg](test_images%2Fgame_stream_440x248.jpeg)
 
 ```shell
 IMAGE_DATA=`base64 -i lambdas/classifier/tests/game_stream_440x248.jpeg`; curl -X POST -H "Content-Type: application/json" -d "{\"image_data\": \"${IMAGE_DATA}\", \"labels\":[\"just chatting\", \"game streamer\", \"nude nsfw\", \"music performance\", \"neutral\"]}" https://2b8ircuzu0.execute-api.eu-west-1.amazonaws.com/prod/
