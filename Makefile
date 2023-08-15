@@ -9,6 +9,11 @@ classifier-lambda-test:
 	python3 -m unittest
 .PHONY: classifier-lambda-test
 
+examples-setup:
+	if [ ! -d {{venv}} ]; then python3 -m venv venv; fi
+	source ./venv/bin/activate && pip3 install -r examples/requirements.txt
+.PHONY: examples-setup
+
 fix:
 	npm run fix
 

@@ -1,6 +1,7 @@
 # clip-classifier-lambda
 
-Use an [OpenAI CLIP](https://openai.com/research/clip) model hosted on a Lambda to classify images, such as video thumbnails. The
+Use an [OpenAI CLIP](https://openai.com/research/clip) model hosted on a Lambda to classify images, such as video
+thumbnails. The
 project is built using CDK, which deploys the Lambda and fronts it with API Gateway.
 
 ## Requirements
@@ -36,8 +37,10 @@ To run the classifier tests:
 make classifier-lambda-test
 ```
 
-The [Dockerfile](/lambdas/classifier/Dockerfile) is configured for ARM. To build for Intel, change `FROM public.ecr.aws/lambda/python:3.10-arm64`, and also
-modify the Lambda function in [clip-classifier-stack.ts](/lib/clip-classifier-stack.ts) from `architecture: lambda.Architecture.ARM_64`.
+The [Dockerfile](/lambdas/classifier/Dockerfile) is configured for ARM. To build for Intel,
+change `FROM public.ecr.aws/lambda/python:3.10-arm64`, and also
+modify the Lambda function in [clip-classifier-stack.ts](/lib/clip-classifier-stack.ts)
+from `architecture: lambda.Architecture.ARM_64`.
 
 ## Usage
 
@@ -85,6 +88,10 @@ IMAGE_DATA=`base64 -i lambdas/classifier/tests/game_stream_440x248.jpeg`; curl -
 {"result": {"just chatting": 0.07552891969680786, "game streamer": 0.9130083322525024, "nude nsfw": 0.0062192026525735855, "music performance": 0.0031575809698551893, "neutral": 0.0020860943477600813}}
 ```
 
+Note: the first time that you call the lambda, it will timeout due to a cold start (it has a lot of setup to do). Subsequent
+calls will be fast. If you want to avoid this, you can set the Lambda CDK construct to use [provisioned concurrency](https://docs.aws.amazon.com/lambda/latest/dg/provisioned-concurrency.html),
+which incurs higher costs.
+
 ## Testing and cost analysis
 
 Sample images and unit tests are in `lambdas/classifier/tests`. These are mostly thumbnails taken directly from the
@@ -97,12 +104,57 @@ invocation).
 For comparison, classifying 1000 images using the Rekognition Detect Labels API costs $1.00.
 
 _However_, CLIP labels are mutually exclusive, so if you want to search for the presence of N items in the same image,
-you should run the classifier N times (e.g. labels ["apple", "no apple"], ["orange", "no orange"], ["fruit", "no fruit"], etc). You
+you should run the classifier N times (e.g.
+labels ["apple", "no apple"], ["orange", "no orange"], ["fruit", "no fruit"], etc). You
 _could_ run the classifier once with the labels ["apple", "orange", "fruit", "no fruit"], and reason about what
 the relative probabilities indicated about the presence or absence of an object, but YMMV. Rekognition allows you to
 search for up to 1000 labels per invocation.
 
-For comparisons of the CLIP model in terms of accuracy (against image classification datasets such as ImageNet), see the link to the paper below.
+For comparisons of the CLIP model in terms of accuracy (against image classification datasets such as ImageNet), see the
+link to the paper below.
+
+## Example with moderation labels
+
+Here follows a map of CLIP image "labels" to moderation classifications. Note that multiple labels could lead to the
+same
+classification (e.g. gaming appears twice). The idea is to provide CLIP with multiple similar descriptions to allow it
+to select the one that fits the image best.
+
+```
+a thumbnail with a blank or logo - neutral
+a thumbnail of a sexy person - suggestive
+a thumbnail of a sport - sport
+a thumbnail containing explicit adult content - explicit
+a thumbnail of a casual gaming stream - gaming
+a thumbnail with suggestive content - suggestive
+a thumbnail of a music performance - music
+a thumbnail containing real-world violent content - violence
+a thumbnail showing violent content from a video game - gaming
+```
+
+See [moderation.py](examples%2Fmoderation.py) for an example of using these. When the example is run with the image
+above,
+the output should look similar to this:
+
+```
+Category probabilities:
+gaming 0.8677900731563568
+suggestive 0.03592784330248833
+violence 0.027453191578388214
+sport 0.027340112254023552
+music 0.024062810465693474
+neutral 0.009686844423413277
+explicit 0.007738994900137186
+```
+
+To build and run the example:
+
+- replace the `ENDPOINT` constant with your deployed API Gateway URL
+
+```shell
+make examples-setup
+python3 ./examples/moderation.py
+```
 
 ## References
 
