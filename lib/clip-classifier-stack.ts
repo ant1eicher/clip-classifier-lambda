@@ -42,6 +42,11 @@ export class ClipClassifierStack extends cdk.Stack {
         accessLogDestination: new apigw.LogGroupLogDestination(accessLogsLogGroup),
         accessLogFormat: apigw.AccessLogFormat.clf()
       },
+      defaultCorsPreflightOptions: {
+        allowHeaders: apigw.Cors.DEFAULT_HEADERS,
+        allowMethods: apigw.Cors.ALL_METHODS,
+        allowOrigins: apigw.Cors.ALL_ORIGINS
+      },
     });
 
     // Output the image URI
