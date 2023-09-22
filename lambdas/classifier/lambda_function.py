@@ -11,6 +11,11 @@ device = "cuda" if torch.cuda.is_available() else "cpu"
 model, preprocess = clip.load(model_path, jit=False, device=device)
 filename = "/tmp/downloaded_image.jpg"
 
+responseHeaders = {
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Allow-Origin': '*',
+}
 
 def handler(event, context):
     args = json.loads(event["body"])
@@ -43,7 +48,12 @@ def handler(event, context):
         print(f"Exception: {e}")
         import traceback
         traceback.print_exc()
-        raise
+        return {
+            'statusCode': 500,
+            'headers': responseHeaders,
+            'body': json.dumps(str(e)),
+            "isBase64Encoded": False
+        }
 
     result = {}
     for i in range(len(labels)):
@@ -53,9 +63,7 @@ def handler(event, context):
 
     return {
         'statusCode': 200,
-        'headers': {
-            'Content-Type': 'application/json'
-        },
+        'headers': responseHeaders,
         'body': json.dumps({
             'result': result
         }),
