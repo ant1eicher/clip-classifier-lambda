@@ -66,7 +66,7 @@ Output format:
 The API call will return the _RELATIVE_ probabilities of the image belonging to the various labels. These labels are
 seen as mutually exclusive, with probabilities summing to 1. If you would like to detect multiple things within the same
 image (e.g. a soccer ball
-AND the fact that a sport is being played), you will need to run the classifier twice.
+AND the fact that a sport is being played), you will need to run the classifier twice, or cleverly encode each combination of two labels as a probability (e.g. label1 & label2, label1 & label3, etc).
 
 ```json
 {
@@ -105,9 +105,7 @@ For comparison, classifying 1000 images using the Rekognition Detect Labels API 
 
 _However_, CLIP labels are mutually exclusive, so if you want to search for the presence of N items in the same image,
 you should run the classifier N times (e.g.
-labels ["apple", "no apple"], ["orange", "no orange"], ["fruit", "no fruit"], etc). You
-_could_ run the classifier once with the labels ["apple", "orange", "fruit", "no fruit"], and reason about what
-the relative probabilities indicated about the presence or absence of an object, but YMMV. Rekognition allows you to
+labels ["apple", "no apple"], ["orange", "no orange"], ["fruit", "no fruit"], etc) or combine labels (e.g. ["orange & apple", "orange & grape"], etc). Rekognition allows you to
 search for up to 1000 labels per invocation.
 
 For comparisons of the CLIP model in terms of accuracy (against image classification datasets such as ImageNet), see the
